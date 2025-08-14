@@ -1,66 +1,207 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Lead Management (Laravel + Vue 3)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Lightweight lead & contact management built with Laravel (API) and Vue 3 + Vite + Tailwind (SPA). Designed for speed, clarity, and easy extension into a full CRM.
 
-## About Laravel
+Tech mix (from GitHub stats): Vue ~68%, PHP ~22%, Blade/JS/CSS the rest. 
+GitHub
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+✨ Core Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Leads: create, assign owner, status (New/In-Progress/Won/Lost), next action date.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Contacts: name, title, phone, email, company link; quick notes.
 
-## Learning Laravel
+Companies: logo (S3-ready), industry tags, website, source.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Timeline & Notes: per lead/contact history (calls, emails, meetings).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Search & Filters: by status, owner, company, industry, date range.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Exports: CSV (Excel-ready) for leads/contacts.
 
-## Laravel Sponsors
+Auth & Security: hashed passwords, CSRF, form requests, policies.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Queues & Scheduler: reminders/follow-ups (Laravel queue + schedule).
 
-### Premium Partners
+Responsive UI: Tailwind-styled SPA for desktop & mobile.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Want multi-tenant / multi-vendor access? See “Multi-Tenant (Optional)” below.
 
-## Contributing
+🏗️ Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Backend: Laravel 11/12, Eloquent, Form Requests, Policies
 
-## Code of Conduct
+Frontend: Vue 3, Pinia, Vite, Tailwind CSS
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+DB: PostgreSQL (UUIDs, indexes, FKs)
 
-## Security Vulnerabilities
+Auth: Laravel Sanctum (JWT optional)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Background jobs: Laravel Queues (Redis recommended)
 
-## License
+🚀 Quick Start
+Prerequisites
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+PHP 8.2+
+
+Composer
+
+Node 18+
+
+PostgreSQL 14+ (or MySQL)
+
+Redis (optional, for queues)
+
+1) Clone & install
+git clone https://github.com/rifatcse09/lead_management.git
+cd lead_management
+composer install
+cp .env.example .env
+php artisan key:generate
+
+2) Configure .env
+APP_NAME="Lead Management"
+APP_URL=http://localhost
+
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=lead_management
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+
+# Files (S3 optional)
+FILESYSTEM_DISK=public
+# For S3: S3_* keys...
+
+# Sanctum / CORS (if SPA served on different port)
+SESSION_DOMAIN=localhost
+SANCTUM_STATEFUL_DOMAINS=localhost:5173
+
+3) Migrate & seed
+php artisan migrate --seed
+
+4) Frontend
+npm install
+npm run dev
+
+5) Serve API
+php artisan serve
+
+
+API: http://localhost:8000
+
+SPA (Vite): http://localhost:5173
+
+🔐 Authentication
+
+Default auth via Sanctum (SPA tokens / session cookies).
+
+Protect routes with policies; use FormRequest for validation.
+
+🗂️ Suggested DB Schema (high-level)
+
+companies (id, name, industry, website, logo, created_by, …)
+
+contacts (id, company_id, name, title, phone, email, …)
+
+leads (id, company_id, contact_id, owner_id, status, source, next_action_on, …)
+
+notes (id, notable_id, notable_type, body, created_by, …) ← polymorphic
+
+reminders (id, lead_id, remind_at, message, user_id, sent_at, …)
+
+users (id, name, email, password, role, …)
+
+Adjust table names/columns to match your current migrations.
+
+🧪 Testing
+php artisan test
+
+
+Add feature tests for:
+
+Create/Update Lead
+
+Permissions (policy)
+
+Filters (status/date/owner)
+
+Export CSV
+
+🧵 Queues & Scheduler
+
+Queue driver: redis recommended (QUEUE_CONNECTION=redis)
+
+Example cron (send reminders, daily digest):
+
+php artisan schedule:work
+
+📦 Build & Production
+npm run build
+php artisan config:cache
+php artisan route:cache
+php artisan queue:work --daemon
+
+
+Serve via Nginx/Apache; point webroot to /public.
+
+For Docker, add PHP-FPM + Nginx + Node build stage.
+
+🛡️ Roles & Access
+
+Admin: manage users, settings
+
+Member: manage own leads/contacts
+
+Policies restrict resource access by owner/team.
+
+🏢 Multi-Tenant / Multi-Vendor (Optional)
+
+If you need per-client isolation:
+
+Add teams (or tenants) table and team_user pivot.
+
+Scope queries by team_id via a global scope / middleware.
+
+Store assets under tenants/{team_id}/… if S3 is used.
+
+Separate API tokens per tenant with Sanctum abilities.
+
+This keeps each client/vendor’s data isolated while reusing the same codebase.
+
+📤 Exports
+
+Endpoints or buttons that return CSV:
+
+/leads/export?status=Won&owner=me
+
+/contacts/export?company=Acme
+
+Use LazyCollections for large datasets.
+
+🗺️ Roadmap
+
+Email/calendar integration (Google/Microsoft)
+
+Kanban pipeline for leads
+
+PDF reports & dashboards
+
+Audit trail (activity log)
+
+Webhooks + basic API for integrations
+
+🤝 Contributing
+
+PRs welcome. Please:
+
+Follow PSR-12
+
+Add tests
+
+Keep commits scoped & descriptive
+
+📄 License
+
+MIT
